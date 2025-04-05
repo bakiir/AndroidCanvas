@@ -43,14 +43,14 @@ interface ApiService {
 
     // Удалить курс по ID
     @DELETE("/admin/courses/{courseId}")
-    fun deleteCourse(@Path("courseId") courseId: Long): Call<Void>
+    fun deleteCourse(@Path("courseId") courseId: Long?): Call<Void>
 
     //======================================================
 
     companion object {
         fun create(): ApiService {
             return Retrofit.Builder()
-                .baseUrl("https://e8cd-95-82-117-141.ngrok-free.app") // локальный адрес для Android-эмулятора
+                .baseUrl("https://4080-95-82-116-87.ngrok-free.app") // локальный адрес для Android-эмулятора
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService::class.java)

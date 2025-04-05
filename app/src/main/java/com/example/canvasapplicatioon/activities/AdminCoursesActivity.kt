@@ -1,17 +1,16 @@
 package com.example.canvasapplicatioon.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.canvasapplicatioon.adapters.CourseAdapter
 import com.example.canvasapplicatioon.api.ApiService
 import com.example.canvasapplicatioon.databinding.ActivityAdminCoursesBinding
 import com.example.canvasapplicatioon.databinding.DialogAddCourseBinding
 import com.example.canvasapplicatioon.models.Course
-import com.example.canvasapplicatioon.adapters.CourseAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,47 +27,41 @@ class AdminCoursesActivity : AppCompatActivity() {
         binding = ActivityAdminCoursesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = CourseAdapter(courseList) { course ->
-            confirmDelete(course)
-        }
-
+        // Настройка RecyclerView
+        adapter = CourseAdapter(courseList)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
+
+        // Обработка кликов
+        adapter.onDeleteClick = { course ->
+            confirmDelete(course)
+        }
 
         binding.btnAddCourse.setOnClickListener {
             showAddCourseDialog()
         }
 
-        fetchCourses()
+        // Загрузка курсов
+        loadCourses()
     }
 
-    private fun fetchCourses() {
+    private fun loadCourses() {
         apiService.getCourses().enqueue(object : Callback<List<Course>> {
             override fun onResponse(call: Call<List<Course>>, response: Response<List<Course>>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { courses ->
-                        // Логируем, что мы получили
-                        Log.d("AdminCoursesActivity", "Получено ${courses.size} курсов")
-                        courseList.clear()
-                        courseList.addAll(courses)
-                        adapter.notifyDataSetChanged() // Обновляем UI
-                    } ?: run {
-                        Log.e("AdminCoursesActivity", "Ответ пустой")
-                        Toast.makeText(this@AdminCoursesActivity, "Нет данных", Toast.LENGTH_SHORT).show()
-                    }
+                if (response.isSuccessful && response.body() != null) {
+                    courseList.clear()
+                    courseList.addAll(response.body()!!)
+                    adapter.notifyDataSetChanged()
                 } else {
-                    Log.e("AdminCoursesActivity", "Ошибка: ${response.code()} - ${response.message()}")
-                    Toast.makeText(this@AdminCoursesActivity, "Ошибка загрузки", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AdminCoursesActivity, "Ошибка загрузки курсов", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<Course>>, t: Throwable) {
-                Log.e("AdminCoursesActivity", "Ошибка: ${t.message}", t)
                 Toast.makeText(this@AdminCoursesActivity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
-
 
     private fun showAddCourseDialog() {
         val dialogBinding = DialogAddCourseBinding.inflate(LayoutInflater.from(this))
@@ -92,7 +85,7 @@ class AdminCoursesActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@AdminCoursesActivity, "Курс добавлен", Toast.LENGTH_SHORT).show()
-                    fetchCourses()
+                    loadCourses()
                 } else {
                     Toast.makeText(this@AdminCoursesActivity, "Ошибка при добавлении", Toast.LENGTH_SHORT).show()
                 }
@@ -118,7 +111,7 @@ class AdminCoursesActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@AdminCoursesActivity, "Курс удалён", Toast.LENGTH_SHORT).show()
-                    fetchCourses()
+                    loadCourses()
                 } else {
                     Toast.makeText(this@AdminCoursesActivity, "Ошибка при удалении", Toast.LENGTH_SHORT).show()
                 }

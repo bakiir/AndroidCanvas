@@ -6,9 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.canvasapplicatioon.databinding.ItemCourseBinding
 import com.example.canvasapplicatioon.models.Course
 
-class CourseAdapter(private val courseList: List<Course>, function: (Nothing) -> Unit) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
+class CourseAdapter(
+    private val courseList: List<Course>
+) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
 
     var onItemClick: ((Course) -> Unit)? = null
+    var onDeleteClick: ((Course) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val binding = ItemCourseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,8 +29,15 @@ class CourseAdapter(private val courseList: List<Course>, function: (Nothing) ->
         fun bind(course: Course) {
             binding.tvCourseName.text = course.name
             binding.tvCourseDesc.text = course.description
+
+            // Клик по элементу (например, чтобы посмотреть подробнее)
             binding.root.setOnClickListener {
                 onItemClick?.invoke(course)
+            }
+
+            // Клик по кнопке "Удалить"
+            binding.deleteButton.setOnClickListener {
+                onDeleteClick?.invoke(course)
             }
         }
     }

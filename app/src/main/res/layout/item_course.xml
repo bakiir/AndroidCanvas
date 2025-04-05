@@ -28,5 +28,14 @@
             android:text="Course Description"
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:text="Удалить"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
