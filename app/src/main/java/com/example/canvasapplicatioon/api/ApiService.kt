@@ -50,7 +50,7 @@ interface ApiService {
     companion object {
         fun create(): ApiService {
             return Retrofit.Builder()
-                .baseUrl("https://43ee-95-82-117-141.ngrok-free.app") // локальный адрес для Android-эмулятора
+                .baseUrl("https://e8cd-95-82-117-141.ngrok-free.app") // локальный адрес для Android-эмулятора
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService::class.java)

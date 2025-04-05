@@ -18,8 +18,8 @@ class AdminPanelActivity : AppCompatActivity() {
             startActivity(Intent(this@AdminPanelActivity, AdminUsersActivity::class.java))
         }
 
-//        binding.btnCourses.setOnClickListener {
-//            startActivity(Intent(this, AdminCoursesActivity::class.java))
-//        }
+        binding.btnCourses.setOnClickListener {
+            startActivity(Intent(this, AdminCoursesActivity::class.java))
+        }
     }
 }
