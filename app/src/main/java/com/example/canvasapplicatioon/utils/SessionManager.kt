@@ -1,19 +1,19 @@
 package com.example.canvasapplicatioon.utils
 
 import android.content.Context
+import com.example.canvasapplicatioon.models.LoginResponse
 
 class SessionManager(context: Context) {
-    private val prefs = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences("user_session", Context.MODE_PRIVATE)
 
-    fun saveAuthData(token: String, role: String, userId: String) {
-        prefs.edit().apply {
-            putString("TOKEN", token)
-            putString("ROLE", role)
-            putString("USER_ID", userId)
-            apply()
-        }
+    fun saveUser(user: LoginResponse) {
+        prefs.edit()
+            .putLong("id", user.id)
+            .putString("name", user.name)
+            .putString("email", user.email)
+            .putString("role", user.role)
+            .apply()
     }
 
-    fun getRole(): String? = prefs.getString("ROLE", null)
-    fun getUserId(): String? = prefs.getString("USER_ID", null)
+    fun getRole(): String? = prefs.getString("role", null)
 }
