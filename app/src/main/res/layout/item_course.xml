@@ -13,21 +13,19 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <TextView
-            android:id="@+id/tvCourseName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Course Name"
-            android:textSize="18sp"
-            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvCourseDesc"
+            android:id="@+id/courseName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Course Description"
-            android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            android:text="Course Name" />
+
+        <TextView
+            android:id="@+id/courseDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Course Description" />
+
 
         <Button
             android:id="@+id/deleteButton"
@@ -35,6 +33,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp" />
+        <Button
+            android:id="@+id/assignTeacherButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Назначить преподавателя" />
 
 
     </LinearLayout>

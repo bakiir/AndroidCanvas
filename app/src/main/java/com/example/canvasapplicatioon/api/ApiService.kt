@@ -1,6 +1,7 @@
 package com.example.canvasapplicatioon.api
 
 
+import com.example.canvasapplicatioon.api.RetrofitClient.retrofit
 import com.example.canvasapplicatioon.models.Course
 import com.example.canvasapplicatioon.models.LoginRequest
 import com.example.canvasapplicatioon.models.LoginResponse
@@ -15,6 +16,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
+
 
     @POST("/auth/login")
     fun login(@Body request: LoginRequest): Call<LoginResponse>
@@ -47,6 +49,12 @@ interface ApiService {
 
     //======================================================
 
+    @POST("admin/courses/{courseId}/teachers/{teacherId}")
+    fun assignTeacherToCourse(
+        @Path("courseId") courseId: Long?,
+        @Path("teacherId") teacherId: Long?
+    ): Call<Void>
+
     companion object {
         fun create(): ApiService {
             return Retrofit.Builder()
@@ -56,4 +64,5 @@ interface ApiService {
                 .create(ApiService::class.java)
         }
     }
+
 }

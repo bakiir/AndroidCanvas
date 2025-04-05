@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.canvasapplicatioon.databinding.ItemCourseBinding
 import com.example.canvasapplicatioon.models.Course
 
+// В твоем адаптере для курсов (CourseAdapter)
 class CourseAdapter(
-    private val courseList: List<Course>
+    private val courseList: List<Course>,
+    private val onDeleteClick: (Course) -> Unit,
+    private val onAssignTeacherClick: (Course) -> Unit // Добавляем обработчик для назначения преподавателя
 ) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
-
-    var onItemClick: ((Course) -> Unit)? = null
-    var onDeleteClick: ((Course) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val binding = ItemCourseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,17 +27,17 @@ class CourseAdapter(
 
     inner class CourseViewHolder(private val binding: ItemCourseBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(course: Course) {
-            binding.tvCourseName.text = course.name
-            binding.tvCourseDesc.text = course.description
+            binding.courseName.text = course.name
+            binding.courseDescription.text = course.description
 
-            // Клик по элементу (например, чтобы посмотреть подробнее)
-            binding.root.setOnClickListener {
-                onItemClick?.invoke(course)
+            // Обработчик для кнопки "Назначить преподавателя"
+            binding.assignTeacherButton.setOnClickListener {
+                onAssignTeacherClick(course)
             }
 
-            // Клик по кнопке "Удалить"
+            // Обработчик для кнопки "Удалить"
             binding.deleteButton.setOnClickListener {
-                onDeleteClick?.invoke(course)
+                onDeleteClick(course)
             }
         }
     }

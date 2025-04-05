@@ -1,16 +1,19 @@
 package com.example.canvasapplicatioon.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.canvasapplicatioon.adapters.UsersAdapter
 import com.example.canvasapplicatioon.api.ApiService
+import com.example.canvasapplicatioon.api.RetrofitClient
 import com.example.canvasapplicatioon.models.User
 import com.example.canvasapplicatioon.databinding.ActivityAdminUsersBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class AdminUsersActivity : AppCompatActivity() {
 
@@ -24,30 +27,32 @@ class AdminUsersActivity : AppCompatActivity() {
         binding = ActivityAdminUsersBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        apiService = ApiService.create()
+        // ✅ Инициализация apiService до использования
+        apiService = RetrofitClient.getInstance().create(ApiService::class.java)
 
-        usersAdapter = UsersAdapter(userList) { user ->
+        // Инициализация адаптера с обработчиками
+        usersAdapter = UsersAdapter(userList, { user ->
             deleteUser(user)
-        }
+        }, { teacher ->
+            // Обработка назначения преподавателя
+            val intent = Intent(this, AdminCoursesActivity::class.java)
+            intent.putExtra("teacher_id", teacher.id)
+            startActivity(intent)
+        }, showAssignButton = false)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = usersAdapter
 
-        binding.addUserButton.setOnClickListener {
-            val name = binding.nameEditText.text.toString().trim()
-            val email = binding.emailEditText.text.toString().trim()
-            val password = binding.passwordEditText.text.toString().trim()
-            val role = binding.roleEditText.text.toString().trim()
-
-            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && role.isNotEmpty()) {
-                addUser(name, email, password, role)
-            } else {
-                Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show()
-            }
-        }
-
+        // Загрузка пользователей
         getUsers()
+
+        // ✅ Установить обработчик клика на кнопку для добавления пользователя
+        binding.addUserButton.setOnClickListener {
+            onAddUserClick() // Вызов функции для добавления пользователя
+        }
     }
+
+
 
     private fun getUsers() {
         apiService.getUsers().enqueue(object : Callback<List<User>> {
@@ -67,20 +72,45 @@ class AdminUsersActivity : AppCompatActivity() {
         })
     }
 
-    private fun addUser(name: String, email: String, password: String, role: String) {
-        val newUser = User(name = name, email = email, password = password, role = role)  // Указание id = 0, так как бекенд, вероятно, генерирует id.
-        apiService.addUser(newUser).enqueue(object : Callback<User> {
+    private fun onAddUserClick() {
+        val name = binding.nameEditText.text.toString()
+        val email = binding.emailEditText.text.toString()
+        val password = binding.passwordEditText.text.toString()
+        val role = binding.roleEditText.text.toString()
+
+        val button = binding.addUserButton
+
+        if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && role.isNotEmpty()) {
+            val user = User(name = name, email = email, password = password, role = role)
+            addUser(user)
+        } else {
+            Toast.makeText(this, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show()
+        }
+        button.setOnClickListener {
+            onAddUserClick()
+        }
+    }
+
+
+
+
+    private fun addUser(user: User) {
+        apiService.addUser(user).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(this@AdminUsersActivity, "User added", Toast.LENGTH_SHORT).show()
-                    getUsers()  // Обновляем список пользователей после добавления
+                    val addedUser = response.body()
+                    if (addedUser != null) {
+                        userList.add(addedUser)
+                        usersAdapter.notifyItemInserted(userList.size - 1)
+                        Toast.makeText(this@AdminUsersActivity, "Пользователь добавлен", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    Toast.makeText(this@AdminUsersActivity, "Failed to add user", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AdminUsersActivity, "Ошибка при добавлении", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
-                Toast.makeText(this@AdminUsersActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AdminUsersActivity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }

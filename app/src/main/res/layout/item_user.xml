@@ -21,11 +21,19 @@
         android:layout_weight="1"
         android:text="Email"
         android:textSize="16sp" />
-
+    <!-- Кнопка для назначения учителя, она будет видна только для пользователей с ролью "teacher" -->
+    <Button
+        android:id="@+id/assignTeacherButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Назначить преподавателя"
+        android:visibility="gone" /> <!-- По умолчанию скрыта -->
     <Button
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Удалить" />
+
+
 
 </LinearLayout>

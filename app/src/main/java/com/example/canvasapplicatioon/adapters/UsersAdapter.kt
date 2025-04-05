@@ -1,6 +1,7 @@
 package com.example.canvasapplicatioon.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.canvasapplicatioon.databinding.ItemUserBinding
@@ -8,7 +9,11 @@ import com.example.canvasapplicatioon.models.User
 
 class UsersAdapter(
     private val userList: MutableList<User>,
-    private val onDeleteClick: (User) -> Unit
+    private val onDeleteClick: (User) -> Unit,
+    private val onAssignTeacherClick: (User) -> Unit = {},  // ← добавили дефолт
+    private val showAssignButton: Boolean = false  // ← добавили флаг
+
+
 ) : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -30,9 +35,20 @@ class UsersAdapter(
             binding.nameTextView.text = user.name
             binding.emailTextView.text = user.email
 
+            // Показывать кнопку "Назначить", только если это разрешено
+            if (showAssignButton && user.role == "teacher") {
+                binding.assignTeacherButton.visibility = View.VISIBLE
+                binding.assignTeacherButton.setOnClickListener {
+                    onAssignTeacherClick(user)
+                }
+            } else {
+                binding.assignTeacherButton.visibility = View.GONE
+            }
+
             binding.deleteButton.setOnClickListener {
                 onDeleteClick(user)
             }
         }
+
     }
 }
