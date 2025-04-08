@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.canvasapplicatioon.databinding.ItemCourseBinding
 import com.example.canvasapplicatioon.models.Course
 
-// В твоем адаптере для курсов (CourseAdapter)
 class CourseAdapter(
     private val courseList: List<Course>,
     private val onDeleteClick: (Course) -> Unit,
-    private val onAssignTeacherClick: (Course) -> Unit // Добавляем обработчик для назначения преподавателя
+    private val onAddStudentsClick: (Course) -> Unit,
+    private val onAssignTeacherClick: (Course) -> Unit
 ) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
@@ -39,6 +39,13 @@ class CourseAdapter(
             binding.deleteButton.setOnClickListener {
                 onDeleteClick(course)
             }
+
+            binding.btnAddStudents.setOnClickListener {
+                onAddStudentsClick(course)
+            }
+
+
+
         }
     }
 }

@@ -39,6 +39,13 @@
             android:layout_height="wrap_content"
             android:text="Назначить преподавателя" />
 
+        <Button
+            android:id="@+id/btnAddStudents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Добавить студентов"
+            android:layout_marginTop="8dp" />
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -1,7 +1,6 @@
 package com.example.canvasapplicatioon.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -34,11 +33,18 @@ class AdminCoursesActivity : AppCompatActivity() {
 
         // Настройка RecyclerView
         // В AdminCoursesActivity
-        adapter = CourseAdapter(courseList, { course ->
-            confirmDelete(course)
-        }, { course ->
-            showAssignTeacherDialog(course.id)  // Вызываем метод для показа диалога
-        }, )
+        adapter = CourseAdapter(
+            courseList,
+            { course ->
+                confirmDelete(course)
+            },
+            { course ->
+                showAssignTeacherDialog(course.id)  // Вызываем метод для показа диалога
+            },
+            { course ->
+                showAddStudentsDialog(course) } // ← новый обработчик
+
+        )
         binding.recyclerView.adapter = adapter
 
 
@@ -54,6 +60,7 @@ class AdminCoursesActivity : AppCompatActivity() {
         // Загрузка курсов
         loadCourses()
     }
+
 
 
     // В AdminCoursesActivity
@@ -261,6 +268,28 @@ class AdminCoursesActivity : AppCompatActivity() {
             })
         }
     }
+
+    private fun showAddStudentsDialog(course: Course) {
+        StudentSelectionDialogFragment(course.id!!) { selectedIds ->
+            apiService.addStudentsToCourse(course.id, selectedIds)
+                .enqueue(object : Callback<Course> {
+                    override fun onResponse(call: Call<Course>, response: Response<Course>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(this@AdminCoursesActivity, "Студенты добавлены", Toast.LENGTH_SHORT).show()
+                            loadCourses() // Обновим список
+                        } else {
+                            Toast.makeText(this@AdminCoursesActivity, "Ошибка: ${response.code()}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Course>, t: Throwable) {
+                        Toast.makeText(this@AdminCoursesActivity, "Сбой: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+        }.show(supportFragmentManager, "student_select")
+    }
+
+
 
 
 

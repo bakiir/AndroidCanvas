@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://4080-95-82-116-87.ngrok-free.app" // Укажи свой URL
+    private const val BASE_URL = "https://beb9-95-82-118-94.ngrok-free.app" // Укажи свой URL
 
     fun getInstance(): Retrofit {
         return retrofit

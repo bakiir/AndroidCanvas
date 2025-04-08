@@ -55,10 +55,17 @@ interface ApiService {
         @Path("teacherId") teacherId: Long?
     ): Call<Void>
 
+    @POST("/admin/courses/{courseId}/students")
+    fun addStudentsToCourse(
+        @Path("courseId") courseId: Long,
+        @Body studentIds: List<Long>
+    ): Call<Course>
+
+
     companion object {
         fun create(): ApiService {
             return Retrofit.Builder()
-                .baseUrl("https://4080-95-82-116-87.ngrok-free.app") // локальный адрес для Android-эмулятора
+                .baseUrl("https://beb9-95-82-118-94.ngrok-free.app") // локальный адрес для Android-эмулятора
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService::class.java)
