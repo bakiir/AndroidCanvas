@@ -18,7 +18,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activities.AddCourseActivity"
+            android:name=".activities.CourseDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.TeacherCoursesActivity"
             android:exported="false" />
         <activity
             android:name=".activities.AdminCoursesActivity"

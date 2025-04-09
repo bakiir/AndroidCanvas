@@ -15,5 +15,8 @@ class SessionManager(context: Context) {
             .apply()
     }
 
+    fun getUserId(): Long = prefs.getLong("id", -1L)
+
+
     fun getRole(): String? = prefs.getString("role", null)
 }

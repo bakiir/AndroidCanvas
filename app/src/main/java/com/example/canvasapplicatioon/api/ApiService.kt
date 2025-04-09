@@ -1,7 +1,6 @@
 package com.example.canvasapplicatioon.api
 
 
-import com.example.canvasapplicatioon.api.RetrofitClient.retrofit
 import com.example.canvasapplicatioon.models.Course
 import com.example.canvasapplicatioon.models.LoginRequest
 import com.example.canvasapplicatioon.models.LoginResponse
@@ -62,10 +61,17 @@ interface ApiService {
     ): Call<Course>
 
 
+    @GET("/admin/courses/{courseId}/students")
+    fun getStudentsByCourse(@Path("courseId") courseId: Long): Call<List<User>>
+
+    @GET("/teacher/courses/{teacherId}")
+    fun getCoursesForTeacher(@Path("teacherId") teacherId: Long): Call<List<Course>>
+
+
     companion object {
         fun create(): ApiService {
             return Retrofit.Builder()
-                .baseUrl("https://beb9-95-82-118-94.ngrok-free.app") // локальный адрес для Android-эмулятора
+                .baseUrl("https://3aa2-91-214-174-170.ngrok-free.app") // локальный адрес для Android-эмулятора
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService::class.java)
