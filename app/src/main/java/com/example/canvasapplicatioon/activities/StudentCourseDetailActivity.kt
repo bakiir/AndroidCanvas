@@ -26,7 +26,7 @@ class StudentCourseDetailActivity : AppCompatActivity() {
         binding = ActivityStudentCourseDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        courseId = intent.getLongExtra("course_id", -1L)
+        courseId = intent.getLongExtra("COURSE_ID", -1L)
         if (courseId == -1L) {
             Toast.makeText(this, "Курс не найден", Toast.LENGTH_SHORT).show()
             finish()
