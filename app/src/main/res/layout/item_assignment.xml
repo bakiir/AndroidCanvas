@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="Удалить"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -48,9 +48,10 @@ class CourseDetailsActivity : AppCompatActivity() {
 
     private fun setupRecyclerViews() {
         // Настройка адаптера заданий
-        assignmentsAdapter = AssignmentAdapter(emptyList()) { assignmentId ->
-            deleteAssignment(assignmentId)
-        }
+        assignmentsAdapter = AssignmentAdapter(emptyList(), { assignmentId ->
+            deleteAssignment(assignmentId) // Обработчик удаления задания
+        }, isStudent = false)
+
         binding.assignmentsRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@CourseDetailsActivity)
             adapter = assignmentsAdapter

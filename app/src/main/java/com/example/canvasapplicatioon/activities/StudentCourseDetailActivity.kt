@@ -34,7 +34,7 @@ class StudentCourseDetailActivity : AppCompatActivity() {
         }
 
         apiService = RetrofitClient.getInstance().create(ApiService::class.java)
-        adapter = AssignmentAdapter(emptyList()) { /* Нет удаления у студента */ }
+        adapter = AssignmentAdapter(emptyList(), onDeleteClick = {}, isStudent = true)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
