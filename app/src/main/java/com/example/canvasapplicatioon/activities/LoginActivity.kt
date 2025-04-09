@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
                     when (user.role) {
                         "admin" -> startActivity(Intent(this@LoginActivity, AdminPanelActivity::class.java))
                         "teacher" -> startActivity(Intent(this@LoginActivity, TeacherCoursesActivity::class.java))
-//                        "student" -> startActivity(Intent(this@LoginActivity, StudentPanelActivity::class.java))
+                        "student" -> startActivity(Intent(this@LoginActivity, StudentCoursesActivity::class.java))
                         else -> Toast.makeText(this@LoginActivity, "Unknown role", Toast.LENGTH_SHORT).show()
                     }
 

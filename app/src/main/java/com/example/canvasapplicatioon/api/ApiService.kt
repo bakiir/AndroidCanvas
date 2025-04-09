@@ -81,6 +81,13 @@ interface ApiService {
     @DELETE("/teacher/assignments/{assignmentId}")
     fun deleteAssignment(@Path("assignmentId") assignmentId: Long): Call<Void>
 
+    //======================================================
+
+    @GET("/student/courses/{studentId}")
+    fun getCoursesForStudent(@Path("studentId") studentId: Long): Call<List<Course>>
+
+
+
     companion object {
         fun create(): ApiService {
             return Retrofit.Builder()
