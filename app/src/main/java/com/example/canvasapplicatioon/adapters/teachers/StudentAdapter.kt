@@ -8,7 +8,7 @@ import com.example.canvasapplicatioon.databinding.ItemStudentBinding
 import com.example.canvasapplicatioon.models.User
 
 class StudentAdapter(
-    private val students: List<User>,
+    private var students: List<User>,
     private val showCheckbox: Boolean = false // по умолчанию чекбокс скрыт
 ) : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
 
@@ -31,4 +31,11 @@ class StudentAdapter(
     }
 
     override fun getItemCount(): Int = students.size
+
+    fun updateList(newList: List<User>) {
+        students = newList
+        notifyDataSetChanged()
+    }
+
+
 }

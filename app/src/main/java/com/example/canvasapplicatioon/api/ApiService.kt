@@ -1,6 +1,7 @@
 package com.example.canvasapplicatioon.api
 
 
+import com.example.canvasapplicatioon.models.Assignment
 import com.example.canvasapplicatioon.models.Course
 import com.example.canvasapplicatioon.models.LoginRequest
 import com.example.canvasapplicatioon.models.LoginResponse
@@ -60,6 +61,7 @@ interface ApiService {
         @Body studentIds: List<Long>
     ): Call<Course>
 
+    //======================================================
 
     @GET("/admin/courses/{courseId}/students")
     fun getStudentsByCourse(@Path("courseId") courseId: Long): Call<List<User>>
@@ -67,11 +69,22 @@ interface ApiService {
     @GET("/teacher/courses/{teacherId}")
     fun getCoursesForTeacher(@Path("teacherId") teacherId: Long): Call<List<Course>>
 
+    @POST("/teacher/courses/{courseId}/assignments")
+    fun addAssignment(
+        @Path("courseId") courseId: Long,
+        @Body assignment: Assignment
+    ): Call<Assignment>
+
+    @GET("/api/assignments/course/{courseId}")
+    fun getCourseAssignments(@Path("courseId") courseId: Long): Call<List<Assignment>>
+
+    @DELETE("/teacher/assignments/{assignmentId}")
+    fun deleteAssignment(@Path("assignmentId") assignmentId: Long): Call<Void>
 
     companion object {
         fun create(): ApiService {
             return Retrofit.Builder()
-                .baseUrl("https://3aa2-91-214-174-170.ngrok-free.app") // локальный адрес для Android-эмулятора
+                .baseUrl("https://a4bc-95-82-117-169.ngrok-free.app") // локальный адрес для Android-эмулятора
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService::class.java)
