@@ -87,11 +87,11 @@ interface ApiService {
     fun getCoursesForStudent(@Path("studentId") studentId: Long): Call<List<Course>>
 
 
-
+    
     companion object {
         fun create(): ApiService {
             return Retrofit.Builder()
-                .baseUrl("https://a4bc-95-82-117-169.ngrok-free.app") // локальный адрес для Android-эмулятора
+                .baseUrl("https://a1c1-91-214-174-164.ngrok-free.app") // локальный адрес для Android-эмулятора
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiService::class.java)

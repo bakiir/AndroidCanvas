@@ -1,59 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/courseDetailsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#F5F5F5">
 
     <TextView
         android:id="@+id/courseTitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Курс: Математика"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:paddingBottom="8dp" />
-
+        android:textColor="#212121"
+        android:paddingBottom="12dp" />
 
     <TextView
+        android:id="@+id/assignmentsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Задания"
         android:textSize="18sp"
-        android:layout_margin="8dp"/>
+        android:textStyle="bold"
+        android:textColor="#212121"
+        android:layout_marginVertical="12dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/assignmentsRecyclerView"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"/>
+        android:layout_marginBottom="12dp"
+        app:cardElevation="6dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="#FFFFFF">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/assignmentsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp" />
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/addAssignmentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Добавить задание" />
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Добавить задание"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#D50032"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="16dp" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/studentsTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Список студентов"
-        android:textSize="16sp"
-        android:paddingTop="16dp" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#212121"
+        android:layout_marginVertical="12dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/studentsRecyclerView"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        app:cardElevation="6dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="#FFFFFF">
 
-
-
-
-
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/studentsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp" />
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

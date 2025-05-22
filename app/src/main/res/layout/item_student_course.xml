@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_student_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="12dp"
-    android:gravity="center_vertical">
+    android:padding="16dp"
+    android:gravity="center_vertical"
+    android:background="#FFFFFF">
 
     <TextView
         android:id="@+id/tvCourseTitle"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Курс" />
+        android:layout_weight="1"
+        android:text="Курс"
+        android:textSize="16sp"
+        android:textColor="#212121" />
 
     <Button
         android:id="@+id/btnOpenCourse"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Открыть" />
+        android:layout_height="48dp"
+        android:text="Открыть"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#D50032"
+        android:paddingHorizontal="16dp" />
 </LinearLayout>
